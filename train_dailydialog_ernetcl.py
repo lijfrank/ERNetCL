@@ -293,19 +293,15 @@ if __name__ == '__main__':
     if args.tensorboard:
         writer.close()
         
-    valid_fscores = np.array(valid_fscores).transpose()
     test_fscores = np.array(test_fscores).transpose()
 
-    valid_best_macro = np.max(valid_fscores[0])
-    valid_best_micro = np.max(valid_fscores[1])
     test_best_macro = np.max(test_fscores[0])
     test_best_micro = np.max(test_fscores[1])
 
-    print('valid_best_macro, valid_best_micro w/o Neutral:', valid_best_macro, valid_best_micro)
     print('test_best_macro, test_best_micro w/o Neutral:', test_best_macro, test_best_micro)
 
     
-    scores = [valid_best_macro, valid_best_micro, test_best_macro, test_best_micro]
+    scores = [test_best_macro, test_best_micro]
     scores = [str(item) for item in scores]
 
     rf = open('results/dailydialog_results.txt', 'a')
