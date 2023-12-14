@@ -155,20 +155,10 @@ class MyDialogue(nn.Module):
             spk_emb_vector = self.speaker_embeddings(spk_idx)
             features = features + spk_emb_vector
 
-        if self.ran_mode == 'dran':
-            features_att = self.myattention(features, key_padding_mask=umask)
-            features_rnn = self.myrecurrent(features, seq_lengths=seq_lengths)
-            features_cat = torch.cat((features_att, features_rnn), -1)
-            features_cat = self.linear_cat(features_cat)
-        elif self.ran_mode == 'sran1':
-            features_rnn = self.myrecurrent(features, seq_lengths=seq_lengths)
-            features_att = self.myattention(features_rnn, key_padding_mask=umask)
+        features_rnn = self.myrecurrent(features, seq_lengths=seq_lengths)
+        features_att = self.myattention(features_rnn, key_padding_mask=umask)
+        features_cat = features_att
 
-            features_cat = features_att
-        elif self.ran_mode == 'sran2':
-            features_att = self.myattention(features, key_padding_mask=umask)
-            features_rnn = self.myrecurrent(features_att, seq_lengths=seq_lengths)
-            features_cat = features_rnn
         prob = self.smax_fc(features_cat)
         
         return prob
