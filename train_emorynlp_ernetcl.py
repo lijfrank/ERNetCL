@@ -305,18 +305,14 @@ if __name__ == '__main__':
     if args.tensorboard:
         writer.close()
         
-    valid_fscores = np.array(valid_fscores).transpose()
     test_fscores = np.array(test_fscores).transpose()
 
-    valid_best_fscore = np.max(valid_fscores[0])
-    valid_best_micro = np.max(valid_fscores[1])
     test_best_fscore = np.max(test_fscores[0])
     test_best_micro = np.max(test_fscores[1])
 
-    print('valid_best_fscore:', valid_best_fscore, valid_best_micro)
     print('test_best_fscore:', test_best_fscore, test_best_micro)
     
-    scores = [valid_best_fscore, valid_best_micro, test_best_fscore, test_best_micro]
+    scores = [test_best_fscore, test_best_micro]
     scores = [str(item) for item in scores]
     
     if args.classify == 'emotion':
